@@ -1,0 +1,157 @@
+﻿<UserControl x:Class="CheckersGame.Views.BoardView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheckersGame"
+        xmlns:models="clr-namespace:CheckersGame.Models"
+        mc:Ignorable="d"
+        Height="500" Width="500">
+    <UserControl.Resources>
+
+        <Style x:Key="BoardStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.Dark}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/Brown.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.Light}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/White.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.DarkWithBlackPawnPiece}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/BrownWithBlack.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.DarkWithWhitePawnPiece}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/BrownWithWhite.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.DarkWithBlackKingPiece}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/KingBlack.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding CellColor}" Value="{x:Static models:CellColor.DarkWithWhiteKingPiece}"/>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="file://C:/Users/vladm/Desktop/CheckersGame/CheckersGame/Resources/KingWhite.png"/>
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ItemsControl x:Name="Board" Grid.ColumnSpan="3" ItemsSource="{Binding Board}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource BoardStyle}"
+                        BorderThickness="0"
+                        Command="{Binding ElementName=Board, Path=DataContext.CellClickedCommand}"
+                        CommandParameter="{Binding}"
+                        IsHitTestVisible="{Binding IsHitTestVisible}">
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="8" Rows="8">
+                    </UniformGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <ItemsControl x:Name="Pieces">
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Column"
+                    Value="{Binding Position.Y}" />
+                    <Setter Property="Grid.Row"
+                    Value="{Binding Position.X}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <TextBlock x:Name="GameInfo" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" FontSize="15" FontWeight="Bold"  Text="{Binding Path=GameInfo}"/>
+        <Button x:Name="SaveGame" Grid.Row="1" Grid.ColumnSpan="1" Grid.Column="0" FontFamily="Impact" FontSize="15" Content="Save" Command="{Binding Path=SaveGame}" Background="FloralWhite" Margin="74,16,76,10"/>
+    </Grid>
+</UserControl>
